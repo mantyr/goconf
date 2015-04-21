@@ -38,8 +38,10 @@ import (
 // ConfigFile is the representation of configuration settings.
 // The public interface is entirely through methods.
 type ConfigFile struct {
-	data map[string]map[string]string // Maps sections to options to values.
+	data map[string]ConfigSection // Maps sections to options to values.
 }
+
+type ConfigSection map[string]string // Maps options to values.
 
 const (
 	// Get Errors
@@ -147,7 +149,7 @@ func (c *ConfigFile) RemoveOption(section string, option string) bool {
 // saved to a file using WriteConfigFile.
 func NewConfigFile() *ConfigFile {
 	c := new(ConfigFile)
-	c.data = make(map[string]map[string]string)
+	c.data = make(map[string]ConfigSection)
 
 	c.AddSection(DefaultSection) // default section always exists
 

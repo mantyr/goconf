@@ -57,6 +57,33 @@ func (c *ConfigFile) GetOptions(section string) (options []string, err error) {
 	return options, nil
 }
 
+func (c *ConfigFile) GetSection(section string) (options ConfigSection, err error) {
+	if section == "" {
+		section = "default"
+	}
+	section = strings.ToLower(section)
+
+	if _, ok := c.data[section]; !ok {
+		return nil, GetError{SectionNotFound, "", "", section, ""}
+	}
+	return c.data[section], nil
+}
+
+// Params: option, default_value
+func (c *ConfigSection) Get(params... string) (string) {
+        if (len(params) == 0) {
+            return ""
+        }
+        value, ok := (*c)[params[0]];
+        if !ok {
+            if (len(params) > 1) {
+                value = params[1]
+            }
+        }
+        return value
+}
+
+
 // HasOption checks if the configuration has the given option in the section.
 // It returns false if either the option or section do not exist.
 func (c *ConfigFile) HasOption(section string, option string) bool {
