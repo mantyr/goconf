@@ -83,6 +83,18 @@ func (c *ConfigSection) Get(params... string) (string) {
         return value
 }
 
+func (c *ConfigSection) GetInt(params... string) int {
+        val := c.Get(params...)
+        i, _ := strconv.Atoi(val)
+        return i
+}
+
+func (c *ConfigSection) GetInt64(params... string) int64 {
+        val := c.Get(params...)
+        i, _ := strconv.ParseInt(val, 10, 64)
+        return i
+}
+
 
 // HasOption checks if the configuration has the given option in the section.
 // It returns false if either the option or section do not exist.
